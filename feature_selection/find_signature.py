@@ -8,10 +8,10 @@ numpy.random.seed(42)
 ### The words (features) and authors (labels), already largely processed.
 ### These files should have been created from the previous (Lesson 10)
 ### mini-project.
-words_file = "../text_learning/your_word_data.pkl" 
-authors_file = "../text_learning/your_email_authors.pkl"
-word_data = joblib.load( open(words_file, "r"))
-authors = joblib.load( open(authors_file, "r") )
+words_file = "./word_data_overfit.pkl" 
+authors_file = "./email_authors_overfit.pkl"
+word_data = joblib.load( open(words_file, "rb"))
+authors = joblib.load( open(authors_file, "rb") )
 
 
 
@@ -37,6 +37,13 @@ labels_train   = labels_train[:150]
 
 
 ### your code goes here
-
-
-
+print(len(features_train))
+from sklearn import tree
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(features_train,labels_train)
+print(clf.score(features_test,labels_test))
+feat_imps = clf.feature_importances_
+for i in feat_imps:
+    if (i > 0.002): print("feature_imp > 0.002:",i)
+print(max(feat_imps),numpy.argmax(feat_imps))
+print(len(feat_imps))

@@ -17,14 +17,14 @@ bumpy_slow = [features_train[ii][1] for ii in range(0, len(features_train)) if l
 
 
 #### initial visualization
-plt.xlim(0.0, 1.0)
+"""plt.xlim(0.0, 1.0)
 plt.ylim(0.0, 1.0)
 plt.scatter(bumpy_fast, grade_fast, color = "b", label="fast")
 plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
 plt.legend()
 plt.xlabel("bumpiness")
 plt.ylabel("grade")
-plt.show()
+plt.show()"""
 ################################################################################
 
 
@@ -32,11 +32,32 @@ plt.show()
 ### visualization code (prettyPicture) to show you the decision boundary
 
 
+"""from sklearn.ensemble import AdaBoostClassifier
+from sklearn import tree
+DTC = tree.DecisionTreeClassifier(min_samples_split=50)
+clf = AdaBoostClassifier(estimator=DTC,n_estimators=100,random_state=0)
+clf.fit(features_train,labels_train)
+pred = clf.predict(features_test)
 
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(pred,labels_test)
+print("acc:",acc)"""
 
+"""from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier(max_depth=2,random_state=0)
+clf.fit(features_train,labels_train)
+pred = clf.predict(features_test)
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(pred, labels_test)
+print("acc:",acc)"""
 
-
-
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=4)
+clf.fit(features_train,labels_train)
+pred = clf.predict(features_test)
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(pred,labels_test)
+print("acc:",acc)
 
 try:
     prettyPicture(clf, features_test, labels_test)

@@ -38,11 +38,12 @@ data_dict = joblib.load( open("../final_project/final_project_dataset.pkl", "rb"
 ### there's an outlier--remove it! 
 data_dict.pop("TOTAL", 0)
 
-
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
+
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
@@ -60,8 +61,9 @@ plt.show()
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
 
-
-
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=2).fit(finance_features)
+pred = kmeans.predict(finance_features)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
@@ -69,3 +71,28 @@ try:
     Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print("No predictions object named pred found, no clusters to plot")
+
+
+
+# Applying MinMax feature scaling to salary and exercised_stock_options
+
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+scaler = MinMaxScaler()
+fin_nparray = np.array(finance_features)
+scaled_finance_features = scaler.fit_transform(fin_nparray)
+salary, exercised_stock_options = zip(*finance_features)
+print(salary)
+print(exercised_stock_options)
+scaled_salary, scaled_exercised_stock_options = zip(*scaled_finance_features)
+print(scaled_finance_features)
+print(scaled_salary[salary.index(200000.0)], scaled_exercised_stock_options[exercised_stock_options.index(1000000.0)])
+
+
+
+
+salary, exercised_stock_options = zip(*finance_features)
+salary = list(filter(lambda i: i!=0.0,salary))
+exercised_stock_options = list(filter(lambda i: i!=0.0,exercised_stock_options))
+print(max(salary),min(salary))
+print(max(exercised_stock_options),min(exercised_stock_options))
