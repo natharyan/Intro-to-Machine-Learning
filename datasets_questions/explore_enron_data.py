@@ -20,7 +20,7 @@ enron_data = joblib.load(open("../final_project/final_project_dataset.pkl", "rb"
 
 # print(len([i for i in enron_data['PRENTICE JAMES'] if i=='stock']))
 dictenron_data = dict(enron_data)
-print(dictenron_data) 
+print(dictenron_data)
 print(enron_data['SKILLING JEFFREY K']['exercised_stock_options'])
 print(len([dictenron_data[i]['salary'] for i in dictenron_data if dictenron_data[i]['salary']!='NaN']))
 print(len([dictenron_data[i]['email_address'] for i in dictenron_data if dictenron_data[i]['email_address']!='NaN']))

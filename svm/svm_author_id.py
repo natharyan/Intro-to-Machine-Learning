@@ -43,17 +43,3 @@ print("score:",score)
 import numpy as np
 chris_emails = np.count_nonzero(pred == 1)
 print("chris email predicted:",chris_emails)
-
-#########################################################
-
-#########################################################
-'''
-You'll be Provided similar code in the Quiz
-But the Code provided in Quiz has an Indexing issue
-The Code Below solves that issue, So use this one
-'''
-
-# features_train = features_train[:int(len(features_train)/100)]
-# labels_train = labels_train[:int(len(labels_train)/100)]
-
-#########################################################

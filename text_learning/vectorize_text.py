@@ -35,37 +35,40 @@ word_data = []
 ### can take a long time
 ### temp_counter helps you only look at the first 200 emails in the list so you
 ### can iterate your modifications quicker
-temp_counter = 0
-
+# temp_counter = 0
 
 for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
     for path in from_person:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
-        temp_counter += 1
-        if temp_counter < 200:
-            path = os.path.join('..', path[:-1])
-            print(path)
-            email = open(path, "r")
+        path = os.path.join('..', path[:-1])
+        print(path)
+        email = open(path, "r")
 
-            ### use parseOutText to extract the text from the opened email
-            parsed_text = parseOutText(email)
+        ### use parseOutText to extract the text from the opened email
+        parsed_text = parseOutText(email)
 
-            ### use str.replace() to remove any instances of the words
-            rep_list = ["sara", "shackleton", "chris", "germani"]
-            for i in rep_list:
-                if i in parsed_text:
-                    parsed_text = parsed_text.replace(i,'')
+        ### use str.replace() to remove any instances of the words
+        rep_list = ["sara", "shackleton", "chris", "germani"]
+        for i in rep_list:
+            if i in parsed_text:
+                parsed_text = parsed_text.replace(i,'')
+        
+        # remove highest frequency word from the parsed text - feature selection
+        parsed_text = parsed_text.replace("sshacklensf",'')
 
-            ### append the text to word_data
-            word_data.append(parsed_text)
-            ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
-            if from_person == "sara":
-                from_data.append(0)
-            else:
-                from_data.append(1)
+        # remove highest frequency word from the parsed text - feature selection
+        parsed_text = parsed_text.replace("cgermannsf",'')
 
-            email.close()
+        ### append the text to word_data
+        word_data.append(parsed_text)
+        ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+        if name == "sara":
+            from_data.append(0)
+        else:
+            from_data.append(1)
+
+        email.close()
 
 print("Emails Processed")
 from_sara.close()
@@ -78,3 +81,7 @@ joblib.dump( from_data, open("your_email_authors.pkl", "wb") )
 
 ### in Part 4, do TfIdf vectorization here
 from sklearn.feature_extraction.text import TfidfVectorizer
+tfid = TfidfVectorizer(stop_words="english")
+tfid_matrix = tfid.fit_transform(word_data)
+print(tfid.get_feature_names_out(), len(tfid.get_feature_names_out()))
+print(tfid.get_feature_names_out()[34597])

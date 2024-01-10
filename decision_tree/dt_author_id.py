@@ -36,6 +36,5 @@ score = accuracy_score(pred,labels_test)
 print("score =",score)
 
 print("features:",len(features_train[0]))
-#########################################################
 
 
